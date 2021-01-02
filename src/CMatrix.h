@@ -31,14 +31,38 @@ public:
         this->array = array;
     }
 
+    // copy constructor
+    CMatrix<T>(const CMatrix<T> &N) {
+        width = N.width;
+        height = N.height;
+
+        if (N.array) {
+            array = new T *[height];
+
+            for (int y = 0; y < height; y++)
+                array[y] = new int[width];
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    array[y][x] = N.array[y][x];
+                }
+            }
+        }
+    }
+
     ~CMatrix<T>() {
         this->width = width;
         this->height = height;
 
-        for (int i = 0; i < height; i++) {
-            delete[] array[i];
+        if (height > 0 && width > 0) {
+            for (int i = 0; i < height; i++) {
+                delete[] array[i];
+            }
+            delete[] array;
+
         }
-        delete[] array;
+
+
     }
 
     void setValue(int x, int y, T value) {
@@ -81,20 +105,6 @@ public:
         }
 
         return newMatrix;
-    }
-
-    double determinant() {
-        double sum = 0;
-
-        CMatrix<T> newMatrix(getHeight(), getWidth());
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                newMatrix.setValue(y, x, getValue(x, y));
-            }
-        }
-
-        return sum;
     }
 
     CMatrix<T> operator+(const CMatrix<T> &other) {
