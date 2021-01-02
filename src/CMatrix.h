@@ -40,7 +40,7 @@ public:
             array = new T *[height];
 
             for (int y = 0; y < height; y++)
-                array[y] = new int[width];
+                array[y] = new T[width];
 
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
@@ -141,7 +141,7 @@ public:
         return newMatrix;
     }
 
-    CMatrix<T> operator*(const int &scalar) {
+    CMatrix<T> operator*(const T &scalar) {
         CMatrix<T> newMatrix(width, height);
 
         for (int y = 0; y < height; y++) {
