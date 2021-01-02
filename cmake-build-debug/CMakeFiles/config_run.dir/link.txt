@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/config_run.dir/src/main.cpp.o  -o config_run  lib/libgmockd.a lib/libgtestd.a -lpthread 

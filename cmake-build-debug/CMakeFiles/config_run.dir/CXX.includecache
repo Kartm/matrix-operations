@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/arach/CLionProjects/mini-project/src/CMatrix.h
+
+/home/arach/CLionProjects/mini-project/src/main.cpp
+iostream
+-
+CMatrix.h
+/home/arach/CLionProjects/mini-project/src/CMatrix.h
+

@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/mini_project_test.dir/main.cpp.o  -o mini_project_test  ../src/libmini_project_lib.a -lgtest 
