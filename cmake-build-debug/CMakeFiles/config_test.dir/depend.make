@@ -44,5 +44,6 @@ CMakeFiles/config_test.dir/test/test_matrix.cpp.o: ../googletest-master/googlete
 CMakeFiles/config_test.dir/test/test_matrix.cpp.o: ../googletest-master/googletest/include/gtest/internal/gtest-string.h
 CMakeFiles/config_test.dir/test/test_matrix.cpp.o: ../googletest-master/googletest/include/gtest/internal/gtest-type-util.h
 CMakeFiles/config_test.dir/test/test_matrix.cpp.o: ../src/CMatrix.h
+CMakeFiles/config_test.dir/test/test_matrix.cpp.o: ../src/CMatrixIdentity.h
 CMakeFiles/config_test.dir/test/test_matrix.cpp.o: ../test/test_matrix.cpp
 

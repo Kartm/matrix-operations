@@ -45,4 +45,5 @@ CMakeFiles/config_test.dir/test/test_matrix.cpp.o
  ../googletest-master/googletest/include/gtest/internal/gtest-string.h
  ../googletest-master/googletest/include/gtest/internal/gtest-type-util.h
  ../src/CMatrix.h
+ ../src/CMatrixIdentity.h
  /home/arach/CLionProjects/mini-project/test/test_matrix.cpp

@@ -9,6 +9,17 @@ template<class T>
 class CMatrix {
 public:
     CMatrix<T>(int width, int height) {
+        std::string exceptionMsg = "invalid size: ";
+        if (width < 0) {
+            exceptionMsg += "width = ";
+            exceptionMsg += std::to_string(width);
+            throw std::invalid_argument(exceptionMsg);
+        } else if (height < 0) {
+            exceptionMsg += "height = ";
+            exceptionMsg += std::to_string(height);
+            throw std::invalid_argument(exceptionMsg);
+        }
+
         this->width = width;
         this->height = height;
 
@@ -70,6 +81,20 @@ public:
         }
 
         return newMatrix;
+    }
+
+    double determinant() {
+        double sum = 0;
+
+        CMatrix<T> newMatrix(getHeight(), getWidth());
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                newMatrix.setValue(y, x, getValue(x, y));
+            }
+        }
+
+        return sum;
     }
 
     CMatrix<T> operator+(const CMatrix<T> &other) {

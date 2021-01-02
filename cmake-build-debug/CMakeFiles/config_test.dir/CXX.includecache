@@ -328,9 +328,13 @@ acxx_demangle.h
 
 ../src/CMatrix.h
 
+../src/CMatrixIdentity.h
+
 /home/arach/CLionProjects/mini-project/test/test_matrix.cpp
 gtest/gtest.h
 /home/arach/CLionProjects/mini-project/test/gtest/gtest.h
 CMatrix.h
 /home/arach/CLionProjects/mini-project/test/CMatrix.h
+CMatrixIdentity.h
+/home/arach/CLionProjects/mini-project/test/CMatrixIdentity.h
 

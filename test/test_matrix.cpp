@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 
 #include "CMatrix.h"
+#include "CMatrixIdentity.h"
 
 TEST(CMatrixTest, creates_with_size) {
     CMatrix<int> intMatrix(9, 4);
@@ -149,6 +150,20 @@ TEST(CMatrixTest, multiplies_by_matrix) {
     EXPECT_EQ(matrixMultipliedResult.getValue(1, 0), 64);
     EXPECT_EQ(matrixMultipliedResult.getValue(0, 1), 139);
     EXPECT_EQ(matrixMultipliedResult.getValue(1, 1), 154);
+}
 
+TEST(CMatrixTest, identity) {
+    CMatrixIdentity<int> identityMatrix(5);
+
+    for(int x = 0; x < 5; x++) {
+        for(int y = 0; y < 5; y++) {
+            int expected = 0;
+            if(x == y) {
+                expected = 1;
+            }
+
+            EXPECT_EQ(identityMatrix.getValue(x, y), expected);
+        }
+    }
 }
 
