@@ -86,6 +86,27 @@ TEST(CMatrixTest, subtracts) {
     }
 }
 
+TEST(CMatrixTest, transposition) {
+    CMatrix<int> intMatrix(4, 3);
+
+    for(int x = 0; x < 4; x++) {
+        for(int y = 0; y < 3; y++) {
+            intMatrix.setValue(x, y, x + y * 10);
+        }
+    }
+
+    CMatrix<int> intMatrixOther = intMatrix.transposition();
+
+    EXPECT_EQ(intMatrixOther.getWidth(), intMatrix.getHeight());
+    EXPECT_EQ(intMatrixOther.getHeight(), intMatrix.getWidth());
+
+    for(int x = 0; x < 4; x++) {
+        for(int y = 0; y < 3; y++) {
+            EXPECT_EQ( intMatrix.getValue(x, y), intMatrixOther.getValue(y, x));
+        }
+    }
+}
+
 TEST(CMatrixTest, multiplies_by_scalar) {
     CMatrix<int> intMatrix(3, 3);
 
@@ -103,5 +124,31 @@ TEST(CMatrixTest, multiplies_by_scalar) {
             EXPECT_EQ( intMatrixOther.getValue(x, y), expectedValue);
         }
     }
+}
+
+TEST(CMatrixTest, multiplies_by_matrix) {
+    CMatrix<int> intMatrix(3, 2);
+    intMatrix.setValue(0, 0, 1);
+    intMatrix.setValue(1, 0, 2);
+    intMatrix.setValue(2, 0, 3);
+    intMatrix.setValue(0, 1, 4);
+    intMatrix.setValue(1, 1, 5);
+    intMatrix.setValue(2, 1, 6);
+
+    CMatrix<int> intMatrixOther(2, 3);
+    intMatrixOther.setValue(0, 0, 7);
+    intMatrixOther.setValue(1, 0, 8);
+    intMatrixOther.setValue(0, 1, 9);
+    intMatrixOther.setValue(1, 1, 10);
+    intMatrixOther.setValue(0, 2, 11);
+    intMatrixOther.setValue(1, 2, 12);
+
+    CMatrix<int> matrixMultipliedResult = intMatrix * intMatrixOther;
+
+    EXPECT_EQ(matrixMultipliedResult.getValue(0, 0), 58);
+    EXPECT_EQ(matrixMultipliedResult.getValue(1, 0), 64);
+    EXPECT_EQ(matrixMultipliedResult.getValue(0, 1), 139);
+    EXPECT_EQ(matrixMultipliedResult.getValue(1, 1), 154);
+
 }
 

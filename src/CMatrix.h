@@ -5,68 +5,82 @@
 #ifndef MINI_PROJECT_CMATRIX_H
 #define MINI_PROJECT_CMATRIX_H
 
-template <class T>
+template<class T>
 class CMatrix {
 public:
     CMatrix<T>(int width, int height) {
-        this -> width = width;
-        this -> height = height;
+        this->width = width;
+        this->height = height;
 
-        T** array = new T*[width];
-        for(int x = 0; x < width; x++) {
-            array[x] = new T[height];
+        T **array = new T *[height];
+        for (int y = 0; y < height; y++) {
+            array[y] = new T[width];
         }
 
         this->array = array;
     }
 
     ~CMatrix<T>() {
-        this -> width = width;
-        this -> height = height;
+        this->width = width;
+        this->height = height;
 
-        for(int i = 0; i < width; i++) {
-            delete [] array[i];
+        for (int i = 0; i < height; i++) {
+            delete[] array[i];
         }
         delete[] array;
     }
 
     void setValue(int x, int y, T value) {
-        if(x >= width || y >= height || x < 0 || y < 0) {
-            throw std::invalid_argument("x or y out of bounds");
+        std::string exceptionMsg = "setting out of bounds: ";
+        if (x >= width || x < 0) {
+            exceptionMsg += "x = ";
+            exceptionMsg += std::to_string(x);
+            throw std::invalid_argument(exceptionMsg);
+        } else if (y >= height || y < 0) {
+            exceptionMsg += "y = ";
+            exceptionMsg += std::to_string(y);
+            throw std::invalid_argument(exceptionMsg);
         }
 
         array[y][x] = value;
     }
 
     T getValue(int x, int y) const {
-        if(x >= width || y >= height || x < 0 || y < 0) {
-            throw std::invalid_argument("x or y out of bounds");
+        std::string exceptionMsg = "getting out of bounds: ";
+        if (x >= width || x < 0) {
+            exceptionMsg += "x = ";
+            exceptionMsg += std::to_string(x);
+            throw std::invalid_argument(exceptionMsg);
+        } else if (y >= height || y < 0) {
+            exceptionMsg += "y = ";
+            exceptionMsg += std::to_string(y);
+            throw std::invalid_argument(exceptionMsg);
         }
 
         return array[y][x];
     }
 
     CMatrix<T> transposition() {
-        CMatrix<T> newMatrix(height, width);
+        CMatrix<T> newMatrix(getHeight(), getWidth());
 
-        for(int j = 0; j < height; j++) {
-            for(int i = 0; i < width; i++) {
-                newMatrix.setValue(j, i, array[i][j]);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                newMatrix.setValue(y, x, getValue(x, y));
             }
         }
 
         return newMatrix;
     }
 
-    CMatrix<T> operator+(const CMatrix<T>& other) {
-        if(width != other.width || height != other.height) {
+    CMatrix<T> operator+(const CMatrix<T> &other) {
+        if (width != other.width || height != other.height) {
             throw std::invalid_argument("matrices differ in size");
         }
 
         CMatrix<T> newMatrix(width, height);
 
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 T newValue = this->getValue(x, y) + other.getValue(x, y);
                 newMatrix.setValue(x, y, newValue);
             }
@@ -75,15 +89,15 @@ public:
         return newMatrix;
     }
 
-    CMatrix<T> operator-(const CMatrix<T>& other) {
-        if(width != other.width || height != other.height) {
+    CMatrix<T> operator-(const CMatrix<T> &other) {
+        if (width != other.width || height != other.height) {
             throw std::invalid_argument("matrices differ in size");
         }
 
         CMatrix<T> newMatrix(width, height);
 
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 T newValue = this->getValue(x, y) - other.getValue(x, y);
                 newMatrix.setValue(x, y, newValue);
             }
@@ -92,36 +106,40 @@ public:
         return newMatrix;
     }
 
-    CMatrix<T> operator*(const int& scalar) {
+    CMatrix<T> operator*(const int &scalar) {
         CMatrix<T> newMatrix(width, height);
 
-        for(int j = 0; j < height; j++) {
-            for(int i = 0; i < width; i++) {
-                T newValue = this->getValue(i, j) * scalar;
-                newMatrix.setValue(i, j, newValue);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                T newValue = this->getValue(x, y) * scalar;
+                newMatrix.setValue(x, y, newValue);
             }
         }
 
         return newMatrix;
     }
 
-    /*CMatrix<T> operator*(const CMatrix<T>& other) {
-        // todo
-        if(width != other.width || height != other.height) {
-            throw std::invalid_argument("matrices differ in size");
+    CMatrix<T> operator*(const CMatrix<T> &other) {
+        if (width != other.height) {
+            throw std::invalid_argument(
+                    "number of columns in the first matrix is not equal to the number of rows in the second matrix");
         }
 
-        CMatrix<T> newMatrix(width, height);
+        CMatrix<T> newMatrix(height, other.width);
 
-        for(int j = 0; j < height; j++) {
-            for(int i = 0; i < width; i++) {
-                T newValue = this->getValue(i, j) * scalar;
-                newMatrix.setValue(i, j, newValue);
+        for (int y1 = 0; y1 < height; y1++) {
+            for (int x2 = 0; x2 < other.width; x2++) {
+                T sum = 0;
+                for (int offset = 0; offset < width; offset++) {
+                    sum += getValue(offset, y1) * other.getValue(x2, offset);
+                }
+                std::cout << std::endl;
+                newMatrix.setValue(x2, y1, sum);
             }
         }
 
         return newMatrix;
-    }*/
+    }
 
     int getWidth() {
         return width;
@@ -133,8 +151,8 @@ public:
 
     void print() {
         std::cout << this->width << " by " << this->height << std::endl;
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 std::cout << getValue(x, y) << " ";
 
             }
@@ -146,7 +164,7 @@ public:
 private:
     int width;
     int height;
-    T** array;
+    T **array;
 };
 
 #endif //MINI_PROJECT_CMATRIX_H
