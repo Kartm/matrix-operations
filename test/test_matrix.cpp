@@ -167,3 +167,32 @@ TEST(CMatrixTest, identity) {
     }
 }
 
+TEST(CMatrixTest, determinant_zero) {
+    CMatrixSquare<int> intMatrix(3);
+    intMatrix.setValue(0, 0, 1);
+    intMatrix.setValue(1, 0, 2);
+    intMatrix.setValue(2, 0, 3);
+    intMatrix.setValue(0, 1, 4);
+    intMatrix.setValue(1, 1, 5);
+    intMatrix.setValue(2, 1, 6);
+    intMatrix.setValue(0, 2, 7);
+    intMatrix.setValue(1, 2, 8);
+    intMatrix.setValue(2, 2, 9);
+
+    EXPECT_EQ(CMatrixSquare<int>::determinant(intMatrix), 0);
+}
+
+TEST(CMatrixTest, determinant_non_zero) {
+    CMatrixSquare<int> intMatrix(3);
+    intMatrix.setValue(0, 0, 1);
+    intMatrix.setValue(1, 0, 4);
+    intMatrix.setValue(2, 0, 9);
+    intMatrix.setValue(0, 1, 8);
+    intMatrix.setValue(1, 1, 4);
+    intMatrix.setValue(2, 1, 2);
+    intMatrix.setValue(0, 2, 7);
+    intMatrix.setValue(1, 2, 8);
+    intMatrix.setValue(2, 2, 9);
+
+    EXPECT_EQ(CMatrixSquare<int>::determinant(intMatrix), 112);
+}

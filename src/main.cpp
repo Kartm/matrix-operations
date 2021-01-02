@@ -1,5 +1,6 @@
 #include <iostream>
 #include "CMatrix.h"
+#include "CMatrixSquare.h"
 #include "CMatrixIdentity.h"
 
 using namespace std;
