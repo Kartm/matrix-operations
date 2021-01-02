@@ -12,11 +12,11 @@ class CMatrix {
 public:
     CMatrix<T>(int width, int height) {
         std::string exceptionMsg = "invalid size: ";
-        if (width < 0) {
+        if (width <= 0) {
             exceptionMsg += "width = ";
             exceptionMsg += std::to_string(width);
             throw std::invalid_argument(exceptionMsg);
-        } else if (height < 0) {
+        } else if (height <= 0) {
             exceptionMsg += "height = ";
             exceptionMsg += std::to_string(height);
             throw std::invalid_argument(exceptionMsg);
@@ -110,6 +110,19 @@ public:
         array[y][x] = value;
     }
 
+    void setWidth(int width) {
+        this->width = width;
+    }
+
+    void setHeight(int height) {
+        this->height = height;
+    }
+
+    void setArray(T ** newArray) {
+        this->array = newArray;
+    }
+
+
     T getValue(int x, int y) const {
         std::string exceptionMsg = "getting out of bounds: ";
         if (x >= width || x < 0) {
@@ -171,7 +184,7 @@ public:
         return newMatrix;
     }
 
-    CMatrix<T> operator*(const T &scalar) {
+    CMatrix<T> operator*(const T scalar) {
         CMatrix<T> newMatrix(width, height);
 
         for (int y = 0; y < height; y++) {
@@ -206,12 +219,16 @@ public:
         return newMatrix;
     }
 
-    int getWidth() {
+    int getWidth() const {
         return width;
     }
 
-    int getHeight() {
+    int getHeight() const {
         return height;
+    }
+
+    T** getArray() const {
+        return array;
     }
 
     void print() {

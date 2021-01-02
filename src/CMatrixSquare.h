@@ -13,11 +13,13 @@ public:
     CMatrixSquare<T>(int size) : CMatrix<T>(size, size) {
     }
 
-    CMatrixSquare<T>(const CMatrix<T>& other) {
-        CMatrix<T>::array = other.array();
+    CMatrixSquare<T>& operator=(CMatrixSquare<T> other)
+    {
+        CMatrix<T>::setWidth(other.getWidth());
+        CMatrix<T>::setHeight(other.getHeight());
+        CMatrix<T>::setArray(other.getArray());
+        return *this;
     }
-
-    using CMatrix<T>::operator*;
 
     int getSize() {
         return CMatrix<T>::getWidth();
@@ -59,7 +61,7 @@ public:
     }
 
     CMatrixSquare<T> getCofactors(int p, int q) {
-        CMatrixSquare<T> cofactorsMatrix(getSize(), getSize());
+        CMatrixSquare<T> cofactorsMatrix(getSize());
 
         int i = 0, j = 0;
 
@@ -69,7 +71,7 @@ public:
                 //  Copying into temporary matrix only those element
                 //  which are not in given row and column
                 if (row != p && col != q) {
-                    cofactorsMatrix.setValue(i, j++, this->getValue(row, col));;
+                    cofactorsMatrix.setValue(j++, i, this->getValue(row, col));;
 
                     // Row is filled, so increase row index and
                     // reset col index
@@ -83,12 +85,19 @@ public:
     }
 
     CMatrixSquare<T> adjoint() {
+        std::cout << getSize();
+
         CMatrixSquare<T> adjointMatrix(getSize());
+
+
 
         if (getSize() == 1) {
             adjointMatrix.setValue(0, 0, 1);
             return adjointMatrix;
         }
+
+        return *this;
+
 
         // temp is used to store cofactors of A[][]
         int sign = 1;
@@ -109,7 +118,7 @@ public:
         }
     }
 
-    CMatrixSquare<T> inverse() {
+    CMatrix<T> inverse() {
         double det = getDeterminant();
 
         if (det == 0) {
@@ -117,10 +126,10 @@ public:
         }
 
         double factor = 1/getDeterminant();
-        CMatrix<T> adjointMatrix = adjoint();
+        CMatrixSquare<T> adjointMatrix = adjoint();
         CMatrix<T> inverseMatrix = adjointMatrix * factor;
 
-        return (CMatrixSquare<T>) inverseMatrix;
+        return inverseMatrix;
     }
 };
 

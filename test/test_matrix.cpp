@@ -375,7 +375,7 @@ TEST(CMatrixTest, read_from_file_double
     EXPECT_EQ(doubleMatrix.getValue(5, 2), 9900.3434);
 }
 
-/*
+
 TEST(CMatrixTest, inverts
 ) {
     CMatrixSquare<double> matrix(3);
@@ -389,7 +389,7 @@ TEST(CMatrixTest, inverts
     matrix.setValue(1, 2, 0);
     matrix.setValue(2, 2, 1);
 
-    CMatrixSquare<double> inverted = matrix.inverse();
+    CMatrix<double> inverted = matrix.inverse();
 
     EXPECT_EQ(inverted
                       .getValue(0, 0), 1);
@@ -410,4 +410,3 @@ TEST(CMatrixTest, inverts
     EXPECT_EQ(inverted
                       .getValue(2, 2), 1);
 }
-*/
