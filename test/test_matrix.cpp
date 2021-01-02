@@ -327,6 +327,54 @@ TEST(CMatrixTest, determinant_non_zero
               112);
 }
 
+TEST(CMatrixTest, read_from_file_int
+) {
+    CMatrix<int> intMatrix(6, 3, "../example-data-1.txt");
+
+    EXPECT_EQ(intMatrix.getValue(0, 0), 1);
+    EXPECT_EQ(intMatrix.getValue(1, 0), 2);
+    EXPECT_EQ(intMatrix.getValue(2, 0), 3123);
+    EXPECT_EQ(intMatrix.getValue(3, 0), 4);
+    EXPECT_EQ(intMatrix.getValue(4, 0), 5);
+    EXPECT_EQ(intMatrix.getValue(5, 0), 6);
+    EXPECT_EQ(intMatrix.getValue(0, 1), 9);
+    EXPECT_EQ(intMatrix.getValue(1, 1), 11231);
+    EXPECT_EQ(intMatrix.getValue(2, 1), 2);
+    EXPECT_EQ(intMatrix.getValue(3, 1), 3);
+    EXPECT_EQ(intMatrix.getValue(4, 1), 4123);
+    EXPECT_EQ(intMatrix.getValue(5, 1), 6);
+    EXPECT_EQ(intMatrix.getValue(0, 2), 5);
+    EXPECT_EQ(intMatrix.getValue(1, 2), 6);
+    EXPECT_EQ(intMatrix.getValue(2, 2), 723);
+    EXPECT_EQ(intMatrix.getValue(3, 2), 8);
+    EXPECT_EQ(intMatrix.getValue(4, 2), 9);
+    EXPECT_EQ(intMatrix.getValue(5, 2), 9900);
+}
+
+TEST(CMatrixTest, read_from_file_double
+) {
+    CMatrix<double> doubleMatrix(6, 3, "../example-data-2.txt");
+
+    EXPECT_EQ(doubleMatrix.getValue(0, 0), 1.0);
+    EXPECT_EQ(doubleMatrix.getValue(1, 0), 2.123);
+    EXPECT_EQ(doubleMatrix.getValue(2, 0), 3123.34);
+    EXPECT_EQ(doubleMatrix.getValue(3, 0), 4.34);
+    EXPECT_EQ(doubleMatrix.getValue(4, 0), 5.1);
+    EXPECT_EQ(doubleMatrix.getValue(5, 0), 6.0);
+    EXPECT_EQ(doubleMatrix.getValue(0, 1), 9);
+    EXPECT_EQ(doubleMatrix.getValue(1, 1), 11231.2323);
+    EXPECT_EQ(doubleMatrix.getValue(2, 1), 2);
+    EXPECT_EQ(doubleMatrix.getValue(3, 1), 3);
+    EXPECT_EQ(doubleMatrix.getValue(4, 1), 4123);
+    EXPECT_EQ(doubleMatrix.getValue(5, 1), 6.123);
+    EXPECT_EQ(doubleMatrix.getValue(0, 2), 5);
+    EXPECT_EQ(doubleMatrix.getValue(1, 2), 6);
+    EXPECT_EQ(doubleMatrix.getValue(2, 2), 723);
+    EXPECT_EQ(doubleMatrix.getValue(3, 2), 8);
+    EXPECT_EQ(doubleMatrix.getValue(4, 2), 9);
+    EXPECT_EQ(doubleMatrix.getValue(5, 2), 9900.3434);
+}
+
 /*
 TEST(CMatrixTest, inverts
 ) {

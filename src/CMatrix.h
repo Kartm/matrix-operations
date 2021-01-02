@@ -5,6 +5,8 @@
 #ifndef MINI_PROJECT_CMATRIX_H
 #define MINI_PROJECT_CMATRIX_H
 
+#include <fstream>
+
 template<class T>
 class CMatrix {
 public:
@@ -29,6 +31,34 @@ public:
         }
 
         this->array = array;
+    }
+
+    // read from file
+    CMatrix<T>(int width, int height, std::string path): CMatrix<T>(width, height) {
+        std::fstream file(path, std::ios_base::in);
+        if(!file.is_open()) {
+            throw std::invalid_argument("file not found");
+        }
+
+        int x = 0;
+        int y = 0;
+
+        T a;
+        while(file >> a) {
+            if(x == width) {
+                x = 0;
+                y++;
+            }
+            if(y == height) {
+                throw std::invalid_argument("matrix cell out of bounds");
+            }
+
+            setValue(x, y, a);
+
+            x++;
+        }
+
+        file.close();
     }
 
     // copy constructor
