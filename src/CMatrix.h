@@ -11,16 +11,7 @@ template<class T>
 class CMatrix {
 public:
     CMatrix<T>(int width, int height) {
-        std::string exceptionMsg = "invalid size: ";
-        if (width <= 0) {
-            exceptionMsg += "width = ";
-            exceptionMsg += std::to_string(width);
-            throw std::invalid_argument(exceptionMsg);
-        } else if (height <= 0) {
-            exceptionMsg += "height = ";
-            exceptionMsg += std::to_string(height);
-            throw std::invalid_argument(exceptionMsg);
-        }
+        checkSize(width, height);
 
         this->width = width;
         this->height = height;
@@ -39,6 +30,8 @@ public:
         if(!file.is_open()) {
             throw std::invalid_argument("file not found");
         }
+
+        checkSize(width, height);
 
         int x = 0;
         int y = 0;
@@ -61,10 +54,32 @@ public:
         file.close();
     }
 
-    // copy constructor
+    void checkSize(int width, int height) {
+        std::string exceptionMsg = "";
+        bool error = false;
+        if (width <= 0) {
+            exceptionMsg += "width = ";
+            exceptionMsg += std::to_string(width);
+            error = true;
+        }
+        if (height <= 0) {
+            exceptionMsg += " height = ";
+            exceptionMsg += std::to_string(height);
+            error = true;
+        }
+        if(error) {
+            throw std::invalid_argument("invalid size: " + exceptionMsg);
+        }
+    }
+
+// copy constructor
     CMatrix<T>(const CMatrix<T> &N) {
         width = N.width;
         height = N.height;
+
+        checkSize(width, height);
+
+        std::cout << "copy constructor, original has size " << width << " x " << height << std::endl;
 
         if (N.array) {
             array = new T *[height];
