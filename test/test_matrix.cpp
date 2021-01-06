@@ -416,3 +416,43 @@ TEST(CMatrixTest, inverts
     EXPECT_EQ(inverted
                       .getValue(2, 2), 1);
 }
+
+TEST(CVectorTest, vector_from_matrix
+) {
+    CMatrixSquare<double> matrix(3);
+    matrix.setValue(0, 0, 1);
+    matrix.setValue(1, 0, 3);
+    matrix.setValue(2, 0, 2);
+    matrix.setValue(0, 1, 0);
+    matrix.setValue(1, 1, -1);
+    matrix.setValue(2, 1, 2);
+    matrix.setValue(0, 2, 0);
+    matrix.setValue(1, 2, 0);
+    matrix.setValue(2, 2, 1);
+
+    CVector<double> horizontal1 = matrix.getVector(0, true);
+    EXPECT_EQ(1, horizontal1.getValue(0));
+    EXPECT_EQ(3, horizontal1.getValue(1));
+    EXPECT_EQ(2, horizontal1.getValue(2));
+    CVector<double> horizontal2 = matrix.getVector(1, true);
+    EXPECT_EQ(0, horizontal2.getValue(0));
+    EXPECT_EQ(-1, horizontal2.getValue(1));
+    EXPECT_EQ(2, horizontal2.getValue(2));
+    CVector<double> horizontal3 = matrix.getVector(2, true);
+    EXPECT_EQ(0, horizontal3.getValue(0));
+    EXPECT_EQ(0, horizontal3.getValue(1));
+    EXPECT_EQ(1, horizontal3.getValue(2));
+
+    CVector<double> vertical1 = matrix.getVector(0, false);
+    EXPECT_EQ(1, vertical1.getValue(0));
+    EXPECT_EQ(0, vertical1.getValue(1));
+    EXPECT_EQ(0, vertical1.getValue(2));
+    CVector<double> vertical2 = matrix.getVector(1, false);
+    EXPECT_EQ(3, vertical2.getValue(0));
+    EXPECT_EQ(-1, vertical2.getValue(1));
+    EXPECT_EQ(0, vertical2.getValue(2));
+    CVector<double> vertical3 = matrix.getVector(2, false);
+    EXPECT_EQ(2, vertical3.getValue(0));
+    EXPECT_EQ(2, vertical3.getValue(1));
+    EXPECT_EQ(1, vertical3.getValue(2));
+}

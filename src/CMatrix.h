@@ -6,6 +6,7 @@
 #define MINI_PROJECT_CMATRIX_H
 
 #include <fstream>
+#include "CVector.h"
 
 template<class T>
 class CMatrix {
@@ -84,7 +85,6 @@ public:
     // copy assignment
     CMatrix<T> operator=(const CMatrix<T> &other)
     {
-        other.width;
         freeArrayMemory();
         v_copy(other);
         return(*this);
@@ -259,6 +259,38 @@ public:
 
     T** getArray() const {
         return array;
+    }
+
+    CVector<T> getVector(int index, bool horizontal) {
+        if(index < 0) {
+            throw std::invalid_argument("invalid vector index");
+        }
+
+        if(horizontal) {
+            if(index >= width) {
+                throw std::invalid_argument("invalid vector index");
+            }
+
+            T* vectorArray = new T[width];
+
+            for(int i = 0; i < width; i++) {
+                vectorArray[i] = getValue(i, index);
+            }
+
+            return CVector<T>(width, vectorArray);
+        } else {
+            if(index >= height) {
+                throw std::invalid_argument("invalid vector index");
+            }
+
+            T* vectorArray = new T[height];
+
+            for(int i = 0; i < width; i++) {
+                vectorArray[i] = getValue(index, i);
+            }
+
+            return CVector<T>(width, vectorArray);
+        }
     }
 
     void print() {
