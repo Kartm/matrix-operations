@@ -76,16 +76,17 @@ public:
         }
     }
 
+    // copy constructor
     CMatrix<T> (const CMatrix<T> &other) {
         v_copy(other);
-//        std::cout << "copy constructor";
     }
 
-    CMatrix<T> operator=(const CMatrix<T> &other) // copy assignment
+    // copy assignment
+    CMatrix<T> operator=(const CMatrix<T> &other)
     {
+        other.width;
         freeArrayMemory();
         v_copy(other);
-//        std::cout << "copy assignment";
         return(*this);
     }
 
@@ -93,6 +94,7 @@ public:
     {
         width = other.width;
         height = other.height;
+        name = other.name;
 
         array = new T *[height];
         for (int y = 0; y < height; y++) {
@@ -107,9 +109,9 @@ public:
     ~CMatrix<T>() {
         checkSize(width, height);
 
-        if (height > 0 && width > 0) {
-            freeArrayMemory();
-        }
+        freeArrayMemory();
+        width = 0;
+        height = 0;
     }
 
     void freeArrayMemory() {

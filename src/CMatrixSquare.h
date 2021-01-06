@@ -77,6 +77,8 @@ public:
                 }
             }
         }
+
+        return cofactorsMatrix;
     }
 
     CMatrixSquare<T> adjoint() {
@@ -90,7 +92,8 @@ public:
         for (int i = 0; i < getSize(); i++) {
             for (int j = 0; j < getSize(); j++) {
                 // Get cofactor of A[i][j]
-                CMatrixSquare<T> temp = getCofactors(i, j); //@todo copy constructor
+
+                CMatrixSquare<T> temp = getCofactors(i, j);
 
                 // sign of adj[j][i] positive if sum of row
                 // and column indexes is even.
@@ -113,8 +116,8 @@ public:
         }
 
         double factor = 1/getDeterminant();
-        CMatrixSquare<T> adjointMatrix = adjoint(); // @todo copy constructor
-        CMatrix<T> inverseMatrix = adjointMatrix * factor; // @todo copy constructor
+        CMatrixSquare<T> adjointMatrix = adjoint();
+        CMatrix<T> inverseMatrix = adjointMatrix * factor;
 
         return inverseMatrix;
     }
