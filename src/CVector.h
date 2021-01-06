@@ -55,7 +55,7 @@ public:
 
     void setValue(int index, T value) {
         if (index >= size || index < 0) {
-            throw std::invalid_argument("setting out of bounds: x = " + std::to_string(index));
+            throw std::invalid_argument("setting out of bounds: index = " + std::to_string(index));
         }
 
         array[index] = value;
@@ -63,7 +63,7 @@ public:
 
     T getValue(int index) const {
         if (index >= size || index < 0) {
-            throw std::invalid_argument("getting out of bounds: x = " + std::to_string(index));
+            throw std::invalid_argument("getting out of bounds: index = " + std::to_string(index));
         }
 
         return array[index];
@@ -75,7 +75,7 @@ public:
 
     T dotProduct(CVector<T> &other) {
         if (size != other.getSize()) {
-            throw std::invalid_argument("dot product - vectors must have an equal size!");
+            throw std::invalid_argument("dot product - vectors must have an equal size! " + std::to_string(size) + " != " + std::to_string(other.getSize()));
         }
 
         T sum = 0;

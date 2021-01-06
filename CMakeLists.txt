@@ -11,7 +11,7 @@ include_directories(src
 set(SOURCE_FILES src/)
 
 # unit tests
-set(TEST_SOURCES test/main_test.cpp test/test_matrix.cpp)
+set(TEST_SOURCES test/main_test.cpp test/test_matrix.cpp test/test_vector.cpp)
 
 #add and link Google Test library
 add_subdirectory(googletest-master)
