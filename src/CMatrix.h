@@ -54,6 +54,10 @@ public:
         file.close();
     }
 
+    CMatrix<T>(std::string name, int width, int height): CMatrix<T>(width, height) {
+        this->name = name;
+    }
+
     void checkSize(int width, int height) {
         std::string exceptionMsg = "";
         bool error = false;
@@ -68,46 +72,55 @@ public:
             error = true;
         }
         if(error) {
-            throw std::invalid_argument("invalid size: " + exceptionMsg);
+            throw std::invalid_argument("invalid size: " + exceptionMsg + name);
         }
     }
 
-// copy constructor
-    CMatrix<T>(const CMatrix<T> &N) {
-        width = N.width;
-        height = N.height;
+    CMatrix<T> (const CMatrix<T> &other) {
+        v_copy(other);
+//        std::cout << "copy constructor";
+    }
 
-        checkSize(width, height);
+    CMatrix<T> operator=(const CMatrix<T> &other) // copy assignment
+    {
+        freeArrayMemory();
+        v_copy(other);
+//        std::cout << "copy assignment";
+        return(*this);
+    }
 
-        std::cout << "copy constructor, original has size " << width << " x " << height << std::endl;
+    void v_copy(const CMatrix<T> &other)
+    {
+        width = other.width;
+        height = other.height;
 
-        if (N.array) {
-            array = new T *[height];
+        array = new T *[height];
+        for (int y = 0; y < height; y++) {
+            array[y] = new T[width];
 
-            for (int y = 0; y < height; y++)
-                array[y] = new T[width];
-
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    array[y][x] = N.array[y][x];
-                }
+            for(int x = 0; x < width; x++) {
+                array[y][x] = other.getValue(x, y);
             }
         }
     }
 
     ~CMatrix<T>() {
-        this->width = width;
-        this->height = height;
+        checkSize(width, height);
 
         if (height > 0 && width > 0) {
+            freeArrayMemory();
+        }
+    }
+
+    void freeArrayMemory() {
+        if (array != NULL) {
             for (int i = 0; i < height; i++) {
-                delete[] array[i];
+                if(array[i] != NULL) {
+                    delete[] array[i];
+                }
             }
             delete[] array;
-
         }
-
-
     }
 
     void setValue(int x, int y, T value) {
@@ -261,6 +274,7 @@ public:
 private:
     int width;
     int height;
+    std::string name = "";
     T **array;
 };
 

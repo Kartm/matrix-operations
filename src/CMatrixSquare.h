@@ -10,18 +10,13 @@
 template<class T>
 class CMatrixSquare : public CMatrix<T> {
 public:
+    CMatrixSquare<T>(std::string name, int size): CMatrix<T>(name, size, size) {
+    }
+
     CMatrixSquare<T>(int size) : CMatrix<T>(size, size) {
     }
 
-    CMatrixSquare<T>& operator=(CMatrixSquare<T> other)
-    {
-        CMatrix<T>::setWidth(other.getWidth());
-        CMatrix<T>::setHeight(other.getHeight());
-        CMatrix<T>::setArray(other.getArray());
-        return *this;
-    }
-
-    int getSize() {
+    int getSize() const {
         return CMatrix<T>::getWidth();
     }
 
@@ -56,12 +51,12 @@ public:
         return res;
     }
 
-    double getDeterminant() {
+    double getDeterminant() const {
         return getDeterminant(*this, getSize());
     }
 
     CMatrixSquare<T> getCofactors(int p, int q) {
-        CMatrixSquare<T> cofactorsMatrix(getSize());
+        CMatrixSquare<T> cofactorsMatrix("cofactors", getSize());
 
         int i = 0, j = 0;
 
@@ -85,37 +80,29 @@ public:
     }
 
     CMatrixSquare<T> adjoint() {
-        std::cout << getSize();
-
-        CMatrixSquare<T> adjointMatrix(getSize());
-
-
+        CMatrixSquare<T> adjointMatrix("adjoint", getSize());
 
         if (getSize() == 1) {
             adjointMatrix.setValue(0, 0, 1);
             return adjointMatrix;
         }
 
-        return *this;
-
-
-        // temp is used to store cofactors of A[][]
-        int sign = 1;
-
         for (int i = 0; i < getSize(); i++) {
             for (int j = 0; j < getSize(); j++) {
                 // Get cofactor of A[i][j]
-                CMatrixSquare<T> cofactors = getCofactors(i, j);
+                CMatrixSquare<T> temp = getCofactors(i, j); //@todo copy constructor
 
                 // sign of adj[j][i] positive if sum of row
                 // and column indexes is even.
-                sign = ((i + j) % 2 == 0) ? 1 : -1;
+                int sign = ((i + j) % 2 == 0) ? 1 : -1;
 
                 // Interchanging rows and columns to get the
                 // transpose of the cofactor matrix
-                adjointMatrix.setValue(j, i, (sign) * (getDeterminant(cofactors, getSize())));
+                adjointMatrix.setValue(i, j, (sign) * (getDeterminant(temp, getSize() - 1)));
             }
         }
+
+        return adjointMatrix;
     }
 
     CMatrix<T> inverse() {
@@ -126,8 +113,8 @@ public:
         }
 
         double factor = 1/getDeterminant();
-        CMatrixSquare<T> adjointMatrix = adjoint();
-        CMatrix<T> inverseMatrix = adjointMatrix * factor;
+        CMatrixSquare<T> adjointMatrix = adjoint(); // @todo copy constructor
+        CMatrix<T> inverseMatrix = adjointMatrix * factor; // @todo copy constructor
 
         return inverseMatrix;
     }
