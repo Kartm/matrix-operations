@@ -227,27 +227,6 @@ public:
         return newMatrix;
     }
 
-//    CMatrix<T> operator*(const CMatrix<T> &other) {
-//        if (width != other.height) {
-//            throw std::invalid_argument(
-//                    "number of columns in the first matrix is not equal to the number of rows in the second matrix");
-//        }
-//
-//        CMatrix<T> newMatrix(height, other.width);
-//
-//        for (int y1 = 0; y1 < height; y1++) {
-//            for (int x2 = 0; x2 < other.width; x2++) {
-//                T sum = 0;
-//                for (int offset = 0; offset < width; offset++) {
-//                    sum += getValue(offset, y1) * other.getValue(x2, offset);
-//                }
-//                newMatrix.setValue(x2, y1, sum);
-//            }
-//        }
-//
-//        return newMatrix;
-//    }
-
     CMatrix<T> operator*(const CMatrix<T> &other) {
         if (width != other.height) {
             throw std::invalid_argument(
@@ -315,15 +294,13 @@ public:
     }
 
     void print() {
-        std::cout << this->width << " by " << this->height << std::endl;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 std::cout << getValue(x, y) << " ";
-
             }
             std::cout << std::endl;
-
         }
+        std::cout << std::endl;
     }
 
 private:
