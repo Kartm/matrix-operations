@@ -89,19 +89,19 @@ public:
             return adjointMatrix;
         }
 
+        CMatrixSquare<T> temp(getSize());
+
         for (int i = 0; i < getSize(); i++) {
             for (int j = 0; j < getSize(); j++) {
                 // Get cofactor of A[i][j]
+                temp = getCofactors(i, j);
 
-                CMatrixSquare<T> temp = getCofactors(i, j);
-
-                // sign of adj[j][i] positive if sum of row
-                // and column indexes is even.
+                // positive if sum of row and column indices is even
                 int sign = ((i + j) % 2 == 0) ? 1 : -1;
 
                 // Interchanging rows and columns to get the
                 // transpose of the cofactor matrix
-                adjointMatrix.setValue(i, j, (sign) * (getDeterminant(temp, getSize() - 1)));
+                adjointMatrix.setValue(j, i, (sign) * (getDeterminant(temp, getSize() - 1)));
             }
         }
 
