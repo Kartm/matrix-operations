@@ -16,6 +16,9 @@ public:
     CMatrixSquare<T>(int size) : CMatrix<T>(size, size) {
     }
 
+    CMatrixSquare<T>(int size, std::string path): CMatrix<T>(size, size, path) {
+    }
+
     int getSize() const {
         return CMatrix<T>::getWidth();
     }

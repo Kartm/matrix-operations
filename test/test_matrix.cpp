@@ -2,6 +2,7 @@
 
 #include "CMatrix.h"
 #include "CMatrixIdentity.h"
+#include "CVector.h"
 
 TEST(CMatrixTest, creates_with_size
 ) {
@@ -375,6 +376,11 @@ TEST(CMatrixTest, read_from_file_double
     EXPECT_EQ(doubleMatrix.getValue(5, 2), 9900.3434);
 }
 
+TEST(CMatrixTest, read_from_file_determinant
+) {
+    CMatrixSquare<double> matrix(7, "../data-large.txt");
+    EXPECT_DOUBLE_EQ(246886212.11800003, matrix.getDeterminant());
+}
 
 TEST(CMatrixTest, inverts
 ) {
